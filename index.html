@@ -3,13 +3,20 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bhavesh Kumar Mali — Frontend Engineer &amp;</title>
+<title>Bhavesh Kumar Mali — Frontend Engineer</title>
 <meta name="description" content="Portfolio of Bhavesh Kumar Mali — Frontend Engineer." />
+<script>
+  try{
+    var t = localStorage.getItem('theme');
+    if(t === 'light') document.documentElement.setAttribute('data-theme','light');
+  }catch(e){}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0a0e13;
+    --bg-rgb:10,14,19;
     --bg-raised:#0f151c;
     --panel:#121a22;
     --line:#1e2a34;
@@ -19,12 +26,31 @@
     --cyan:#4fd8c4;
     --cyan-dim:#2b8f81;
     --amber:#ffb454;
+    --on-accent:#04100e;
     --font-display:'Space Grotesk', sans-serif;
     --font-body:'IBM Plex Sans', sans-serif;
     --font-mono:'IBM Plex Mono', monospace;
+    color-scheme: dark;
+    transition:background .25s ease, color .25s ease;
+  }
+  html[data-theme="light"]{
+    --bg:#f5f3ee;
+    --bg-rgb:245,243,238;
+    --bg-raised:#ffffff;
+    --panel:#faf8f3;
+    --line:#e1ddd2;
+    --text:#181c20;
+    --muted:#5c6670;
+    --muted-dim:#8b9299;
+    --cyan:#0e8f7c;
+    --cyan-dim:#0b7264;
+    --amber:#b8791a;
+    --on-accent:#ffffff;
+    color-scheme: light;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  body, .btn, .clink, .module, .project-card, .contact-panel, nav{transition:background-color .25s ease, border-color .25s ease, color .25s ease;}
   body{
     background:var(--bg);
     color:var(--text);
@@ -32,7 +58,7 @@
     line-height:1.6;
     overflow-x:hidden;
   }
-  ::selection{background:var(--cyan);color:#04100e;}
+  ::selection{background:var(--cyan);color:var(--on-accent);}
   a{color:inherit;text-decoration:none;}
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
   @media(max-width:640px){.wrap{padding:0 20px;}}
@@ -58,6 +84,15 @@
   .nav-links a:hover{color:var(--text);}
   .nav-links a:focus-visible, a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px;}
   @media(max-width:720px){.nav-links{display:none;}}
+  .nav-right{display:flex;align-items:center;gap:22px;}
+  .theme-toggle{
+    font-family:var(--font-mono);font-size:12px;color:var(--muted);
+    border:1px solid var(--line);background:transparent;border-radius:20px;
+    padding:7px 14px;cursor:pointer;display:flex;align-items:center;gap:7px;
+    transition:all .2s;
+  }
+  .theme-toggle:hover{color:var(--cyan);border-color:var(--cyan-dim);}
+  .theme-toggle .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -67,7 +102,7 @@
   #hero-canvas{position:absolute;inset:0;z-index:0;opacity:0.9;}
   .hero-fade{
     position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:linear-gradient(180deg, rgba(10,14,19,0.1) 0%, rgba(10,14,19,0.55) 70%, var(--bg) 100%);
+    background:linear-gradient(180deg, rgba(var(--bg-rgb),0.1) 0%, rgba(var(--bg-rgb),0.55) 70%, var(--bg) 100%);
   }
   .hero-content{position:relative;z-index:2;width:100%;}
   .eyebrow{
@@ -95,7 +130,7 @@
     font-family:var(--font-mono);font-size:14px;padding:13px 26px;
     border-radius:3px;transition:all .2s ease;display:inline-flex;align-items:center;gap:8px;
   }
-  .btn-primary{background:var(--cyan);color:#04100e;font-weight:600;}
+  .btn-primary{background:var(--cyan);color:var(--on-accent);font-weight:600;}
   .btn-primary:hover{background:#6fe4d2;transform:translateY(-1px);}
   .btn-ghost{border:1px solid var(--line);color:var(--text);}
   .btn-ghost:hover{border-color:var(--cyan-dim);color:var(--cyan);}
@@ -135,9 +170,10 @@
   .schema-row span:last-child{color:var(--text);text-align:right;}
 
   /* ---------- SKILLS ---------- */
-  .modules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-  @media(max-width:860px){.modules-grid{grid-template-columns:repeat(2,1fr);}}
+  .modules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
   @media(max-width:560px){.modules-grid{grid-template-columns:1fr;}}
+  .modules-grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  @media(max-width:860px){.modules-grid.cols-3{grid-template-columns:repeat(2,1fr);}}
   .module{background:var(--bg-raised);padding:26px 24px;transition:background .2s;}
   .module:hover{background:var(--panel);}
   .module-label{
@@ -171,7 +207,7 @@
   .project-name{font-family:var(--font-display);font-size:24px;font-weight:600;}
   .project-tag{font-family:var(--font-mono);font-size:11px;color:var(--amber);letter-spacing:0.05em;text-transform:uppercase;margin-top:6px;}
   .project-link{font-family:var(--font-mono);font-size:13px;color:var(--cyan);white-space:nowrap;border:1px solid var(--cyan-dim);padding:8px 16px;border-radius:3px;transition:all .2s;}
-  .project-link:hover{background:var(--cyan);color:#04100e;}
+  .project-link:hover{background:var(--cyan);color:var(--on-accent);}
   .project-desc{color:var(--muted);font-size:15px;max-width:680px;margin-bottom:20px;}
   .project-metrics{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
   .metric-pill{
@@ -180,6 +216,51 @@
   }
   .project-stack{display:flex;gap:8px;flex-wrap:wrap;}
   .stack-chip{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);background:var(--panel);padding:5px 11px;border-radius:3px;border:1px solid var(--line);}
+
+  /* ---------- CERTIFICATES ---------- */
+  .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media(max-width:860px){.cert-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.cert-grid{grid-template-columns:1fr;}}
+  .cert-card{
+    border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg-raised);
+    cursor:pointer;transition:border-color .2s, transform .2s;text-align:left;
+  }
+  .cert-card:hover{border-color:var(--cyan-dim);transform:translateY(-3px);}
+  .cert-thumb-wrap{width:100%;aspect-ratio:4/3;background:#fff;overflow:hidden;position:relative;}
+  .cert-thumb{width:100%;height:100%;object-fit:cover;display:block;}
+  .cert-thumb-wrap::after{
+    content:'View ↗';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(10,14,19,0.55);color:#fff;font-family:var(--font-mono);font-size:13px;
+    opacity:0;transition:opacity .2s;
+  }
+  .cert-card:hover .cert-thumb-wrap::after{opacity:1;}
+  .cert-body{padding:18px 20px;}
+  .cert-title{font-family:var(--font-display);font-weight:600;font-size:15.5px;}
+  .cert-issuer{font-size:13px;color:var(--muted);margin-top:3px;}
+  .cert-meta{font-family:var(--font-mono);font-size:11px;color:var(--cyan);margin-top:10px;letter-spacing:0.02em;}
+
+  #cert-lightbox{
+    position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    background:rgba(4,6,8,0.88);padding:28px;
+  }
+  #cert-lightbox.active{display:flex;}
+  .lightbox-inner{
+    max-width:880px;width:100%;max-height:90vh;background:var(--bg-raised);
+    border-radius:10px;overflow:hidden;border:1px solid var(--line);
+    display:flex;flex-direction:column;
+  }
+  .lightbox-img-wrap{background:#fff;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:auto;}
+  .lightbox-img{max-width:100%;max-height:78vh;display:block;}
+  .lightbox-footer{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);}
+  .lightbox-titles{font-size:13.5px;}
+  .lightbox-titles strong{display:block;font-family:var(--font-display);font-size:15px;}
+  .lightbox-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .lightbox-close{
+    position:absolute;top:20px;right:24px;font-family:var(--font-mono);font-size:13px;color:#fff;
+    background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:20px;
+    padding:8px 16px;cursor:pointer;
+  }
+  .lightbox-close:hover{background:rgba(255,255,255,0.2);}
 
   /* ---------- EXPERIENCE TIMELINE ---------- */
   .timeline{position:relative;padding-left:32px;}
@@ -235,12 +316,17 @@
 <nav>
   <div class="nav-inner">
     <div class="brand"><span class="brand-dot"></span>BHAVESH.MALI</div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and premium theme" type="button">
+        <span class="dot"></span><span id="theme-toggle-label">Premium</span>
+      </button>
     </div>
   </div>
 </nav>
@@ -251,7 +337,7 @@
   <div class="hero-content wrap">
     <div class="eyebrow">Frontend Engineer</div>
     <h1 class="headline">I build systems that touch real payments, <span class="accent">real inventory</span>, real people.</h1>
-    <p class="hero-sub">B.Tech Computer Science graduate (Mohanlal Sukhadia University, 2025) and <strong>triple GATE qualifier (2024–2026)</strong>. I ship full-stack, AI-powered, and automation-driven products — from a production POS system processing live transactions to a real-time social platform with live messaging.</p>
+    <p class="hero-sub">B.Tech Computer Science graduate (Mohanlal Sukhadia University, 2025) and <strong>triple GATE qualifier (2024–2026)</strong>. I ship full-stack, production-grade web products — from a production POS system processing live transactions to a real-time social platform with live messaging.</p>
     <div class="hero-ctas">
       <a href="#work" class="btn btn-primary">View my work →</a>
       <a href="Bhavesh_Kumar_Mali_Resume.pdf" class="btn btn-ghost" download>↓ Download resume</a>
@@ -274,9 +360,9 @@
         <div class="about-body reveal">
           <div class="section-eyebrow">01 · About</div>
           <h2 class="section-title" style="margin-bottom:24px;">Grounded in shipping, not just studying.</h2>
-          <p>I'm a frontend engineer and AI/automation builder based in India, open to remote roles. My work spans <strong>React, Next.js and TypeScript</strong> on the frontend, and <strong>LangChain, n8n, CrewAI and RAG pipelines</strong> on the AI/automation side.</p>
-          <p>What sets my portfolio apart is that most of it isn't a demo — I independently architected and deployed a <strong>production retail POS system</strong> handling live Razorpay transactions, alongside a real-time social platform with live messaging. I also lean on AI-assisted development tools like Cursor, Bolt and Lovable to prototype and ship faster.</p>
-          <p>I'm targeting remote-first frontend and AI/automation roles where rapid prototyping and product ownership matter.</p>
+          <p>I'm a frontend engineer based in India, open to remote roles. My work centers on <strong>React, Next.js and TypeScript</strong>, backed by production experience with REST APIs, PostgreSQL and Supabase.</p>
+          <p>What sets my portfolio apart is that most of it isn't a demo — I independently architected and deployed a <strong>production retail POS system</strong> handling live Razorpay transactions, alongside a real-time social platform with live messaging.</p>
+          <p>I'm targeting remote-first frontend engineering roles.</p>
         </div>
         <div class="reveal">
           <div class="schema-card">
@@ -301,19 +387,11 @@
       <div class="modules-grid reveal">
         <div class="module">
           <div class="module-label">Frontend</div>
-          <div class="module-items">React.js, Next.js, TypeScript, Tailwind CSS, Redux, HTML5, CSS3, React Router</div>
+          <div class="module-items">React.js, Next.js, TypeScript, Tailwind CSS, Redux, HTML5, CSS3, React Router, Responsive Design</div>
         </div>
         <div class="module">
           <div class="module-label">Backend &amp; Tools</div>
-          <div class="module-items">Node.js, Razorpay API, Vercel, Supabase, Git, GitHub, VS Code</div>
-        </div>
-        <div class="module">
-          <div class="module-label">AI &amp; Automation</div>
-          <div class="module-items">LangChain, n8n, CrewAI, RAG Pipelines, Prompt Engineering, AI Agent Development</div>
-        </div>
-        <div class="module">
-          <div class="module-label">AI Dev Tools</div>
-          <div class="module-items">Cursor, Bolt, Lovable</div>
+          <div class="module-items">Node.js, REST APIs, PostgreSQL, Razorpay API, Vercel, Supabase, Git, GitHub, VS Code</div>
         </div>
         <div class="module">
           <div class="module-label">Languages</div>
@@ -321,7 +399,7 @@
         </div>
         <div class="module">
           <div class="module-label">Cloud</div>
-          <div class="module-items">IBM Cloud, AI &amp; Cloud Computing Fundamentals</div>
+          <div class="module-items">IBM Cloud Fundamentals</div>
         </div>
       </div>
 
@@ -378,7 +456,6 @@
         <div class="project-metrics">
           <span class="metric-pill">Realtime feed, likes &amp; DMs via WebSockets</span>
           <span class="metric-pill">7-table PostgreSQL schema with RLS</span>
-          <span class="metric-pill">Optimistic UI rendering</span>
         </div>
         <div class="project-stack">
           <span class="stack-chip">Next.js 16</span><span class="stack-chip">TypeScript</span><span class="stack-chip">Tailwind CSS</span>
@@ -389,7 +466,7 @@
       <div class="project-card reveal">
         <div class="project-top">
           <div>
-            <div class="project-name">AI-Enhanced Frontend Architecture</div>
+            <div class="project-name">Modular Frontend Architecture</div>
             <div class="project-tag">Reusable UI component library</div>
           </div>
         </div>
@@ -432,6 +509,13 @@
       <div class="timeline reveal">
         <div class="tl-item">
           <div class="tl-dot"></div>
+          <div class="tl-date">Aug 2026 · 1-month program</div>
+          <div class="tl-role">Web Development Intern</div>
+          <div class="tl-org">Prodigy InfoTech</div>
+          <div class="tl-desc">Completed a 1-month Web Development internship (1st–31st August 2026) with outstanding remarks, praised for strong technical skills, initiative, and problem-solving ability. Tackled complex development tasks with attention to detail and creativity, earning a Letter of Recommendation from the Software Engineering Manager.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
           <div class="tl-date">2026 · 6-week program</div>
           <div class="tl-role">Full Stack Web Development Intern (MERN)</div>
           <div class="tl-org">Skill Nexis</div>
@@ -455,11 +539,46 @@
     </div>
   </section>
 
+  <section id="certifications">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">05 · Certifications</div>
+        <h2 class="section-title">Certifications.</h2>
+      </div>
+      <div class="cert-grid reveal">
+        <button type="button" class="cert-card" data-img="certs/prodigy-cert.jpg" data-file="certs/prodigy-cert.pdf" data-title="Web Development — Certificate of Completion" data-issuer="Prodigy InfoTech">
+          <div class="cert-thumb-wrap"><img class="cert-thumb" src="certs/prodigy-cert.jpg" alt="Prodigy InfoTech Web Development certificate" loading="lazy"></div>
+          <div class="cert-body">
+            <div class="cert-title">Web Development</div>
+            <div class="cert-issuer">Prodigy InfoTech — Certificate of Completion &amp; Letter of Recommendation</div>
+            <div class="cert-meta">Issued Aug 2026</div>
+          </div>
+        </button>
+        <button type="button" class="cert-card" data-img="certs/edunet-cert.jpg" data-file="certs/edunet-cert.jpg" data-title="AI &amp; Cloud Computing Fundamentals" data-issuer="Edunet Foundation, in collaboration with AICTE">
+          <div class="cert-thumb-wrap"><img class="cert-thumb" src="certs/edunet-cert.jpg" alt="Edunet Foundation AI and Cloud Computing certificate" loading="lazy"></div>
+          <div class="cert-body">
+            <div class="cert-title">AI &amp; Cloud Computing Fundamentals</div>
+            <div class="cert-issuer">IBM SkillsBuild / Edunet Foundation (AICTE)</div>
+            <div class="cert-meta">Jun – Jul 2024</div>
+          </div>
+        </button>
+        <button type="button" class="cert-card" data-img="certs/skillnexis-cert.jpg" data-file="certs/skillnexis-cert.pdf" data-title="Full Stack Web Development (MERN)" data-issuer="Skill Nexis">
+          <div class="cert-thumb-wrap"><img class="cert-thumb" src="certs/skillnexis-cert.jpg" alt="Skill Nexis Full Stack Web Development certificate" loading="lazy"></div>
+          <div class="cert-body">
+            <div class="cert-title">Full Stack Web Development (MERN)</div>
+            <div class="cert-issuer">Skill Nexis — Certificate of Completion</div>
+            <div class="cert-meta">Issued Aug 2026</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
   <section id="education">
     <div class="wrap">
       <div class="edu-awards">
         <div class="reveal">
-          <div class="section-eyebrow">05 · Education</div>
+          <div class="section-eyebrow">06 · Education</div>
           <h2 class="section-title" style="margin-bottom:28px;">Education</h2>
           <div class="edu-item">
             <div class="edu-degree">B.Tech — Computer Science</div>
@@ -478,7 +597,7 @@
           </div>
         </div>
         <div class="reveal">
-          <div class="section-eyebrow">06 · Awards</div>
+          <div class="section-eyebrow">07 · Awards</div>
           <h2 class="section-title" style="margin-bottom:28px;">Awards &amp; achievements</h2>
           <div class="award-item">
             <div class="award-mark">01</div>
@@ -503,7 +622,7 @@
     <div class="wrap">
       <div class="contact-panel reveal">
         <h2>Let's build something.</h2>
-        <p>Open to remote-first frontend and AI/automation roles, and freelance or independent project work.</p>
+        <p>Open to remote-first frontend engineering roles, and freelance or independent project work.</p>
         <div class="contact-links">
           <a class="clink" href="mailto:bhaveshmali9116@gmail.com">✉ bhaveshmali9116@gmail.com</a>
           <a class="clink" href="tel:+919116705227">☎ +91-9116705227</a>
@@ -516,6 +635,20 @@
     </div>
   </section>
 
+  <div id="cert-lightbox">
+    <button type="button" class="lightbox-close" id="cert-lightbox-close">✕ Close</button>
+    <div class="lightbox-inner">
+      <div class="lightbox-img-wrap"><img class="lightbox-img" id="cert-lightbox-img" src="" alt=""></div>
+      <div class="lightbox-footer">
+        <div class="lightbox-titles"><strong id="cert-lightbox-title"></strong><span id="cert-lightbox-issuer"></span></div>
+        <div class="lightbox-actions">
+          <a class="btn btn-ghost" id="cert-lightbox-open" href="#" target="_blank" rel="noopener">Open full size ↗</a>
+          <a class="btn btn-primary" id="cert-lightbox-download" href="#" download>↓ Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <footer>Designed &amp; built by Bhavesh Kumar Mali · India</footer>
@@ -526,6 +659,60 @@
 <script>
 (function(){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- Theme toggle ---------------- */
+  var toggleBtn = document.getElementById('theme-toggle');
+  var toggleLabel = document.getElementById('theme-toggle-label');
+  function syncLabel(){
+    var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if(toggleLabel) toggleLabel.textContent = isLight ? 'Light' : 'Premium';
+  }
+  syncLabel();
+  if(toggleBtn){
+    toggleBtn.addEventListener('click', function(){
+      var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if(isLight){
+        document.documentElement.removeAttribute('data-theme');
+        try{ localStorage.setItem('theme','premium'); }catch(e){}
+      } else {
+        document.documentElement.setAttribute('data-theme','light');
+        try{ localStorage.setItem('theme','light'); }catch(e){}
+      }
+      syncLabel();
+    });
+  }
+
+  /* ---------------- Certificate lightbox ---------------- */
+  var lightbox = document.getElementById('cert-lightbox');
+  var lbImg = document.getElementById('cert-lightbox-img');
+  var lbTitle = document.getElementById('cert-lightbox-title');
+  var lbIssuer = document.getElementById('cert-lightbox-issuer');
+  var lbOpen = document.getElementById('cert-lightbox-open');
+  var lbDownload = document.getElementById('cert-lightbox-download');
+  var lbClose = document.getElementById('cert-lightbox-close');
+
+  function openLightbox(card){
+    var img = card.getAttribute('data-img');
+    var file = card.getAttribute('data-file');
+    lbImg.src = img;
+    lbImg.alt = card.getAttribute('data-title') || 'Certificate';
+    lbTitle.textContent = card.getAttribute('data-title') || '';
+    lbIssuer.textContent = card.getAttribute('data-issuer') || '';
+    lbOpen.href = file;
+    lbDownload.href = file;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.cert-card').forEach(function(card){
+    card.addEventListener('click', function(){ openLightbox(card); });
+  });
+  if(lbClose) lbClose.addEventListener('click', closeLightbox);
+  if(lightbox) lightbox.addEventListener('click', function(e){ if(e.target === lightbox) closeLightbox(); });
+  window.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
 
   /* ---------------- 3D hero: node network ---------------- */
   if(!reduceMotion && window.THREE){
